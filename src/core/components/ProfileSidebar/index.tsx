@@ -30,7 +30,7 @@ function ProfileSidebar() {
       <MobileSideBar />
       <aside className={classNames(collapsibleCtx, 'hidden md:block', Style['sidebar-wrapper'])}>
         <div className={Style['sidebar-content']}>
-          <div onClick={() => setIsCollapse(!isCollapse)} className="h-[80px] py-4 px-6 flex items-center">
+          <div className="h-[80px] py-4 px-6 flex items-center">
             <h2>VM Mart</h2>
           </div>
           <ul>
