@@ -1,8 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { handleSubmitLogin } from '@/actions/Authentication';
 import { useAuthContext } from '@/context/AuthContext';
@@ -12,7 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 const Page = () => {
   const router = useRouter();
-  const { onRefresh, isFetchingProfile, isAuthenticated } = useAuthContext();
+  const { onRefresh, isFetchingProfile } = useAuthContext();
   const methods = useForm({ resolver: yupResolver(LoginSchema) });
 
   const [loading, setLoading] = useState(false);
@@ -38,12 +38,6 @@ const Page = () => {
   if (isFetchingProfile) {
     return <></>;
   }
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push('/admin/dashboard');
-    }
-  }, [isAuthenticated]);
 
   return (
     <div className="border border-gray-200 bg-gray-50 ">

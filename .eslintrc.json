@@ -28,7 +28,11 @@
     "react/react-in-jsx-scope": "off",
     "quotes": [
       "warn",
-      "single"
+      "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
     ], // Use single quotes
     "semi": [
       "warn",
