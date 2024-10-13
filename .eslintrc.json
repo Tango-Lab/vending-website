@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "@typescript-eslint/no-empty-object-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-wrapper-object-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "quotes": [
+      "warn",
+      "single"
+    ], // Use single quotes
+    "semi": [
+      "warn",
+      "always"
+    ], // Require semicolons
+    "no-unused-vars": "off", // Disable the base no-unused-vars rule
+    "react-hooks/exhaustive-deps": "off" // Disable the exhaustive-deps rule
+  }
+}

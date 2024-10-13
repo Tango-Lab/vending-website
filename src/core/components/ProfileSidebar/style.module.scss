@@ -1,0 +1,37 @@
+.sidebar-wrapper {
+  position: relative;
+  background-color: #fff;
+  overflow: hidden;
+  flex: 1 0 200px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1rem;
+  box-shadow:
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0.08) 0px 6px 12px 0px;
+
+  .sidebar-content {
+    padding: 10px;
+  }
+
+  ul {
+    li {
+      cursor: pointer;
+      padding: 16px 24px;
+      border-radius: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover {
+        background-color: rgb(243, 243, 241);
+      }
+    }
+  }
+
+  .is-collapse {
+    ul {
+      li {
+        display: none;
+      }
+    }
+  }
+}
