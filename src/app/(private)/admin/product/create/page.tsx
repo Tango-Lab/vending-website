@@ -58,7 +58,7 @@ const Page = () => {
             <InputText name="barCode" label="Bar Code" placeholder="Ex: 555666777888" />
           </div>
           <div className="grid grid-cols-3 grid-flow-col gap-4">
-            <InputText name="price" placeholder="Ex: 4.99" label="Product Name" />
+            <InputText name="price" placeholder="Ex: 4.99" label="Price" />
             <Dropdown name="type" label="Product Type" items={ProductTypeList} />
           </div>
           <div className="col-span-2">

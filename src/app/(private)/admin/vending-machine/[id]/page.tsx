@@ -124,7 +124,8 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           </div>
           <div className="flex items-center gap-x-5 pl-5">
             <MdOutlinePendingActions className="text-xl " />
-            <span className="w-32 ">Created at</span> :<span> {formatDisplayDate(machine.createdAt)}</span>
+            <span className="w-32 ">Created at</span> :
+            <span> {formatDisplayDate(machine.createdAt, 'DD MMM YYYY')}</span>
           </div>
           <div className="flex items-center gap-x-5 pl-5">
             <MdOutlineFastfood className="text-xl " />

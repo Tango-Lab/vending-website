@@ -23,6 +23,7 @@ export interface TypeProps {
 export const AddMachineProductForm = (props: TypeProps) => {
   const { machineId, lastSlotNo = '01', closeForm, onSuccessSubmit, formValue } = props;
   const [productList, setProductsList] = useState<ProductAutoComplete[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // API
   const { response } = useApi({
@@ -56,12 +57,22 @@ export const AddMachineProductForm = (props: TypeProps) => {
   const id = formValue?._id;
 
   const onSubmitForm = (data: IVendingMachineSlotForm) => {
-    formSubmitAction(data).then(() => {
-      message.success('Slot was created successfully!');
-      if (onSuccessSubmit) {
-        onSuccessSubmit();
-      }
-    });
+    setLoading(true);
+    formSubmitAction(data)
+      .then(() => {
+        message.success('Saved successfully.!');
+        setLoading(false);
+        if (onSuccessSubmit) {
+          onSuccessSubmit();
+        }
+      })
+      .catch((error) => {
+        alert(error?.message);
+        setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const formSubmitAction = (data: IVendingMachineSlotForm) => {
@@ -105,7 +116,9 @@ export const AddMachineProductForm = (props: TypeProps) => {
           <Button theme="light" onClick={closeForm}>
             Close
           </Button>
-          <Button type="submit">Save & Close</Button>
+          <Button disabled={loading} type="submit">
+            {loading ? 'Processing' : 'Save & Close'}
+          </Button>
         </div>
       </Form>
     </div>
