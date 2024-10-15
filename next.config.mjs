@@ -4,8 +4,19 @@ import path from 'path';
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  images: {
-    domains: ['127.0.0.1', process.env.IMAGE_DOMAIN ?? '',],
+    images: {
+      domains: [],  // Leave empty or add trusted domains
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: '**',  // Allows any domain
+        },
+        {
+          protocol: 'http',
+          hostname: '**',  // Allows any domain for http
+        },
+      ],
+      unoptimized: true, // Disables image optimization, allows any domain
   },
   webpack: (config) => {
     config.resolve.alias = {
