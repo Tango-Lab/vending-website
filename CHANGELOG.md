@@ -1,5 +1,20 @@
 # Release Notes
 
+## v1.0.1-beta [15-Oct-2024]
+
+### Improvement
+
+- **Vending Slot Machine:**
+
+  - Added loading state with disabled buttons on create and update forms
+
+- **Products:**
+
+  - Fixed redundant label issue from product name to price
+
+- **Improvement:**
+  - Updated Next.js configuration for better performance and optimization.
+
 ## v1.0.0-beta [13-Oct-2024]
 
 ### Features
