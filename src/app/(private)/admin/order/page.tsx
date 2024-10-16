@@ -93,10 +93,10 @@ function Page() {
     <div>
       <Form methods={methods} classNames="flex gap-4">
         <div className="flex-1 max-w-[200px] flex-grow">
-          <Dropdown items={machinesList} name="machine" placeholder="Machine" />
+          <Dropdown items={machinesList} name="machine" placeholder="Select Machine" />
         </div>
         <div className="flex-1 max-w-[200px]">
-          <Dropdown items={order.STATUS_LIST} name="status" placeholder="Order Status" />
+          <Dropdown items={order.STATUS_LIST} name="status" placeholder="Select Status" />
         </div>
         <Button onClick={onClearFilter}>Clear</Button>
       </Form>
