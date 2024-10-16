@@ -48,32 +48,17 @@ const Page = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-          Vending Machine
-        </h2>
-
-        <Link
-          className="col-end-7 text-white bg-primary hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          href="/admin/vending-machine/create"
-        >
-          Create Vending Machine
-        </Link>
+        <h2 className="mb-5 text-xl font-bold text-gray-900 dark:text-white">Vending Machine</h2>
+        <Button className="text-center">
+          <Link href="/admin/vending-machine/create"> Create Vending Machine</Link>
+        </Button>
       </div>
-      <Form methods={methods} classNames="my-5">
-        <div className="grid grid-cols-4 gap-4">
-          <InputText
-            name="name"
-            disableSpecialChars={true}
-            placeholder="Ex: Vending Machine A"
-          />
-          <div className="grid grid-cols-3">
-            <Button className="" onClick={onClearFilter}>
-              Clear
-            </Button>
-          </div>
+      <Form methods={methods} classNames="my-5 flex gap-4 items-center justify-start">
+        <div className="flex-1 max-w-[300px]">
+          <InputText name="name" disableSpecialChars={true} placeholder="Ex: Vending Machine A" />
         </div>
+        <Button onClick={onClearFilter}>Clear</Button>
       </Form>
-
       <table className="w-full min-w-max table-auto mt-4 text-left">
         <thead>
           <tr>
@@ -111,24 +96,15 @@ const Page = () => {
           {list.length > 0 &&
             list.map((row, idx) => {
               return (
-                <tr
-                  key={idx}
-                  className="hover:bg-gray-100 dark:hover:bg-neutral-700"
-                >
+                <tr key={idx} className="hover:bg-gray-100 dark:hover:bg-neutral-700">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                    <Link href={'/admin/vending-machine/' + row.id}>
-                      {row.name}
-                    </Link>
+                    <Link href={'/admin/vending-machine/' + row.id}>{row.name}</Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                    <Link href={'/admin/vending-machine/' + row.id}>
-                      {row.device.ip}
-                    </Link>
+                    <Link href={'/admin/vending-machine/' + row.id}>{row.device.ip}</Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                    <Link href={'/admin/vending-machine/' + row.id}>
-                      {row.capacity}
-                    </Link>
+                    <Link href={'/admin/vending-machine/' + row.id}>{row.capacity}</Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
                     <Link href={'/admin/vending-machine/' + row.id}>
@@ -170,7 +146,7 @@ const Page = () => {
                         query: { id: row.id },
                       }}
                     >
-                      <button className='p-3 text-center'>
+                      <button className="p-3 text-center">
                         <MdEditDocument className="w-6 h-6 text-gray-400 hover:text-blue-500" />
                       </button>
                     </Link>
@@ -179,11 +155,11 @@ const Page = () => {
               );
             })}
         </tbody>
-      </table >
+      </table>
       <div className="mt-4">
         <Pagination total={total} pageSize={limit} onChange={setOffset} />
       </div>
-    </div >
+    </div>
   );
 };
 
