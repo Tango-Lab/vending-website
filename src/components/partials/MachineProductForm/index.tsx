@@ -82,6 +82,11 @@ export const AddMachineProductForm = (props: TypeProps) => {
     });
   };
 
+  const slotNoArray = Array.from({ length: 99 }, (_, i) => ({
+    id: String(i + 1).padStart(2, '0'),
+    name: String(i + 1).padStart(2, '0'),
+  }));
+
   return (
     <div>
       <div className="border-b-2 mb-9">
@@ -95,7 +100,7 @@ export const AddMachineProductForm = (props: TypeProps) => {
           </div>
 
           <div className="grid grid-cols-3 gap-4">
-            <InputText name="slotNo" label="Vending Slot" placeholder={`Last Slot: ${lastSlotNo}`} />
+            <Dropdown name="slotNo" label="Vending Slot" items={slotNoArray} />
             <InputText name="quantity" label="Slot Quantity" placeholder="10" />
             <InputText name="capacity" label="Slot Capacity" placeholder="25" />
           </div>
