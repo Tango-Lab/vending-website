@@ -89,11 +89,6 @@ function Page() {
     }
   }
 
-  const OrderStatusArray = Array.from({ length: 3 }, (_, i) => ({
-    id: String(i + 1),
-    name: formatOrderStatus(i + 1),
-  }));
-
   return (
     <div>
       <Form methods={methods} classNames="flex gap-4">
@@ -101,7 +96,7 @@ function Page() {
           <Dropdown items={machinesList} name="machine" />
         </div>
         <div className="flex-1 max-w-[200px]">
-          <Dropdown items={OrderStatusArray} name="status" />
+          <Dropdown items={order.STATUS_LIST} name="status" />
         </div>
         <Button onClick={onClearFilter}>Clear</Button>
       </Form>
