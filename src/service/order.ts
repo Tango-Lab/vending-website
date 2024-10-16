@@ -2,9 +2,7 @@ import { IOrder, OrderListParam } from '@/models/Order';
 import { IPagination } from '@/models/Pagination';
 import { GETWithToken } from '@Core';
 
-export function getAllOrders(
-  param: OrderListParam
-): Promise<IPagination<IOrder>> {
+export function getAllOrders(param: OrderListParam): Promise<IPagination<IOrder>> {
   const API_URL = '/api/orders/v1/admin/list';
   return GETWithToken<IPagination<IOrder>, any>(API_URL, param);
 }

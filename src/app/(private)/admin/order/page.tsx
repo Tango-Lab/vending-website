@@ -23,17 +23,19 @@ function Page() {
   const [total, setTotal] = useState(0);
   const [list, setList] = useState<IOrder[]>([]);
   const [selectedMachine, setSelectedMachine] = useState<string | null>(null);
+  const [selectedOrderStatus, setSelectedOrderStatus] = useState<number | null>(null);
   const [machinesList, setMachinesList] = useState<ListItemType[]>([]);
 
-  const methods = useForm<ListItemType>({ defaultValues: { machine: null } });
+  const methods = useForm<ListItemType>({ defaultValues: { machine: null, status: null } });
 
   const { watch, setValue } = methods;
   const machine = watch('machine');
+  const status = watch('status');
 
   const { response } = useApi({
     service: getAllOrders,
-    params: { limit, offset, machine },
-    effects: [offset, selectedMachine],
+    params: { limit, offset, machine, status },
+    effects: [offset, selectedMachine, selectedOrderStatus],
   });
 
   const { response: machines } = useApi<ListItemType[]>({
@@ -55,15 +57,23 @@ function Page() {
     }
   }, [machines]);
 
+  useEffect(() => {
+    if (machines?.length) {
+      setMachinesList(machines);
+    }
+  }, [status]);
+
   // When We filtered machine
   useEffect(() => {
     setOffset(0);
     setSelectedMachine(machine);
-  }, [machine]);
+    setSelectedOrderStatus(parseInt(status));
+  }, [machine, status]);
 
   function onClearFilter() {
     setOffset(0);
     setValue('machine', null);
+    setValue('status', null);
   }
 
   function getStatusClass(statusOrder: number) {
@@ -79,11 +89,19 @@ function Page() {
     }
   }
 
+  const OrderStatusArray = Array.from({ length: 3 }, (_, i) => ({
+    id: String(i + 1),
+    name: formatOrderStatus(i + 1),
+  }));
+
   return (
     <div>
       <Form methods={methods} classNames="flex gap-4">
         <div className="flex-1 max-w-[200px]">
           <Dropdown items={machinesList} name="machine" />
+        </div>
+        <div className="flex-1 max-w-[200px]">
+          <Dropdown items={OrderStatusArray} name="status" />
         </div>
         <Button onClick={onClearFilter}>Clear</Button>
       </Form>
@@ -185,6 +203,13 @@ function Page() {
           ))}
         </tbody>
       </table>
+
+      {!list.length && (
+        <div className="mt-10 text-center text-gray-800 dark:text-neutral-200">
+          No order has been recorded for this filter(s).
+        </div>
+      )}
+
       <div className="mt-4">
         <Pagination total={total} pageSize={limit} onChange={setOffset} />
       </div>

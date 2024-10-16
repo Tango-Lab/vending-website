@@ -40,11 +40,11 @@ const DropdownComponent = (props: DropdownTypeProps) => {
       )}
       <select
         id={name}
-        defaultValue={0}
+        defaultValue={''}
         className={classNames(ctxClass, 'bg-gray-50 text-sm rounded-lg block w-full p-2.5')}
         {...register(name)}
       >
-        <option value={0} disabled>
+        <option value={''} disabled>
           Select an option
         </option>
         {items.map((row) => (
