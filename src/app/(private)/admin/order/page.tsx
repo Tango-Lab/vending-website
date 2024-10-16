@@ -92,11 +92,11 @@ function Page() {
   return (
     <div>
       <Form methods={methods} classNames="flex gap-4">
-        <div className="flex-1 max-w-[200px]">
-          <Dropdown items={machinesList} name="machine" />
+        <div className="flex-1 max-w-[200px] flex-grow">
+          <Dropdown items={machinesList} name="machine" placeholder="Machine" />
         </div>
         <div className="flex-1 max-w-[200px]">
-          <Dropdown items={order.STATUS_LIST} name="status" />
+          <Dropdown items={order.STATUS_LIST} name="status" placeholder="Order Status" />
         </div>
         <Button onClick={onClearFilter}>Clear</Button>
       </Form>

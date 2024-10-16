@@ -53,27 +53,22 @@ const Page = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-6 gap-4">
-        <div className="col-span-4">
+      <div className="flex justify-between items-center gap-4">
+        <div>
           <h2 className="text-3xl">All Product ({total})</h2>
         </div>
-        <Link
-          className="col-end-7 text-white bg-primary hover:bg-primary-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          href="/admin/product/create"
-        >
-          Create Product
-        </Link>
+        <Button className="text-center">
+          <Link href="/admin/product/create">Create Product</Link>
+        </Button>
       </div>
-      <Form methods={methods} classNames="my-5">
-        <div className="grid grid-cols-6 gap-4">
+      <Form methods={methods} classNames="my-5 flex gap-4 items-center justify-start">
+        <div className="flex-1 max-w-[200px]">
           <InputText name="name" disableSpecialChars={true} placeholder="Ex: Snack" />
-          <Dropdown name="type" items={ProductTypeList} />
-          <div className="grid grid-cols-2">
-            <Button className="" onClick={onClearFilter}>
-              Clear
-            </Button>
-          </div>
         </div>
+        <div className="flex-1 max-w-[200px]">
+          <Dropdown name="type" items={ProductTypeList} placeholder="Product Type" />
+        </div>
+        <Button onClick={onClearFilter}>Clear</Button>
       </Form>
       <table className="w-full min-w-max table-auto mt-4 text-left">
         <thead>
