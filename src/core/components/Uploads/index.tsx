@@ -14,13 +14,7 @@ export interface UploadTypesProps {
 }
 
 const UploadComponent = (props: UploadTypesProps) => {
-  const {
-    name,
-    folderName,
-    label,
-    accepts = ['image/*'],
-    isMultiple = false,
-  } = props;
+  const { name, folderName, label, accepts = ['image/*'], isMultiple = false } = props;
   const {
     register,
     setValue,
@@ -38,9 +32,7 @@ const UploadComponent = (props: UploadTypesProps) => {
   const onDroppedFiled = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const droppedFiles = Array.from(e.dataTransfer.files);
-    const isValidFileType = droppedFiles
-      .map(file => isFileTypeValid(file))
-      .every(Boolean);
+    const isValidFileType = droppedFiles.map((file) => isFileTypeValid(file)).every(Boolean);
 
     if (isValidFileType) {
       const files = isMultiple ? droppedFiles : [droppedFiles[0]];
@@ -66,15 +58,13 @@ const UploadComponent = (props: UploadTypesProps) => {
   };
 
   const isFileTypeValid = (file: File): Boolean => {
-    return accepts.some(type => {
+    return accepts.some((type) => {
       const mimeType = type.includes('/') ? type : `${type}/*`;
       return file.type === type || file.type.startsWith(mimeType.split('/')[0]);
     });
   };
 
-  const error = name
-    .split('.')
-    .reduce((acc, part) => (acc as any)?.[part], errors);
+  const error = name.split('.').reduce((acc, part) => (acc as any)?.[part], errors);
 
   useEffect(() => {
     if (files.length) {
@@ -91,11 +81,11 @@ const UploadComponent = (props: UploadTypesProps) => {
       uploadFiles(formData)
         .then(({ url }) => {
           if (!isMultiple) {
-            setFileUrls(oldFiles => [...oldFiles, url]);
+            setFileUrls((oldFiles) => [...oldFiles, url]);
             setValue(name, url);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           alert(err?.message);
         });
     }
@@ -109,11 +99,7 @@ const UploadComponent = (props: UploadTypesProps) => {
 
   return (
     <div>
-      {label && (
-        <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          {label}
-        </div>
-      )}
+      {label && <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{label}</div>}
       <div
         onDrop={onDroppedFiled}
         onDragOver={onDragOver}
@@ -145,21 +131,14 @@ const UploadComponent = (props: UploadTypesProps) => {
                 height={24}
               />
               <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">Click to upload</span> or drag
-                and drop
+                <span className="font-semibold">Click to upload</span> or drag and drop
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                SVG, PNG, JPG or GIF (MAX. 800x400px)
-              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
             </div>
           )}
         </label>
       </div>
-      {error && (
-        <p className="text-red-500 text-xs mt-2">
-          {(error as any).message?.toString()}
-        </p>
-      )}
+      {error && <p className="text-red-500 text-xs mt-2">{(error as any).message?.toString()}</p>}
 
       <input
         id={name}

@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import {
+  MdBlock,
+  MdClose,
   MdDelete,
   MdDevices,
   MdEditDocument,
@@ -103,7 +105,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     const machineSlots = machine.slots.slice(offset, limit + offset);
     setSlots(machineSlots);
   };
-
   return (
     <>
       <Modal visible={openForm}>
@@ -191,20 +192,17 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
               <th scope="col" className="px-6 py-3">
                 Price
               </th>
-              <th scope="col" className="px-6 py-3">
-                Quantity
+              <th scope="col" className="px-6 py-3 text-center">
+                RESTOCK QTY
               </th>
-              <th scope="col" className="px-6 py-3">
-                Available
+              <th scope="col" className="px-6 py-3 text-center">
+                AVAILABLE QTY
               </th>
               <th scope="col" className="px-6 py-3">
                 Status
               </th>
               <th scope="col" className="px-6 py-3">
                 Created At
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Updated At
               </th>
               <th scope="col" className="text-center px-6 py-3">
                 Action
@@ -239,8 +237,20 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                   </th>
                   <td className="px-6 py-4">{row.slotNo}</td>
                   <td className="px-6 py-4">{formatCurrencyWithSymbol(row.price, '', 'KHR')}</td>
-                  <td className="px-6 py-4"> {row.quantity}</td>
-                  <td className="px-6 py-4"> {row.availableQuantity}</td>
+                  <td className="px-6 py-4 text-center"> {row.quantity}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex justify-center items-center">
+                      {row.availableQuantity === 0 ? (
+                        <div
+                          className={`flex justify-center items-center w-[50px] h-[50px] rounded-full hover:bg-red-100`}
+                        >
+                          <MdBlock title="Available Qty = 0" className={`w-7 h-7 text-red-500`} />
+                        </div>
+                      ) : (
+                        <div>{row.availableQuantity}</div>
+                      )}
+                    </div>
+                  </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
                       <div
@@ -254,7 +264,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                     </div>
                   </td>
                   <td className="px-6 py-4">{formatDisplayDate(product.createdAt)}</td>
-                  <td className="px-6 py-4">{formatDisplayDate(product.updatedAt)}</td>
                   <td className="text-center">
                     <button className="p-3 text-center" onClick={() => editProduct(row)}>
                       <MdEditDocument className="w-6 h-6 text-gray-400 hover:text-blue-500" />
