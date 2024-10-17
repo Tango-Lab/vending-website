@@ -91,7 +91,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           .then(() => {
             setIsRefresh(true);
             setCancelling(true);
-            alert('Cancelled Succeffully');
+            alert('Ordered has cancelled successfully');
           })
           .catch((err) => {
             alert(err.message);
