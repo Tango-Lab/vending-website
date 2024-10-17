@@ -13,11 +13,14 @@ import { useRouter } from 'next/navigation';
 import { formatOrderStatus, formatPaymentMethod, formatPaymentStatus } from '@/helper/format-status';
 
 import { IOrder, PaymentInfo } from '@/models/Order';
-import { getOrderById } from '@/service/order';
+import { cancelOrder, getOrderById } from '@/service/order';
 import { formatCurrencyWithSymbol } from '@/helper/format-number';
+import { Button } from '@Core';
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const router = useRouter();
+  const [refresh, setIsRefresh] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
   const [order, setOrder] = useState<IOrder | null>(null);
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo | null>(null);
 
@@ -28,7 +31,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           if (res) {
             setOrder(res);
             if (res.payments.length) {
-              setPaymentInfo(res.payments[0].paymentInfo);
+              setPaymentInfo(res.payments[0]?.paymentInfo);
             }
           }
         })
@@ -36,7 +39,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           router.replace('/404'); // Redirect to 404 on error
         });
     }
-  }, [id]);
+  }, [id, refresh]);
 
   if (!order) {
     return <></>;
@@ -76,6 +79,30 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     }
   }
 
+  const onClickCancel = () => {
+    const machine = order.machine;
+    const serialNo = machine?.device.serialNo;
+
+    if (serialNo && order) {
+      if (confirm('Do you want to cancel this order')) {
+        setCancelling(true);
+        const param = { machine: machine.id, orderNo: order.orderNo, serialNo };
+        cancelOrder(param)
+          .then(() => {
+            setIsRefresh(true);
+            setCancelling(true);
+            alert('Cancelled Succeffully');
+          })
+          .catch((err) => {
+            alert(err.message);
+          })
+          .finally(() => {
+            setCancelling(false);
+          });
+      }
+    }
+  };
+
   return (
     <div>
       {order && (
@@ -89,6 +116,11 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
               {orderStatus(order.orderStatus)}
               {paymentStatus(order.paymentStatus)}
             </div>
+            {order.orderStatus === orderConstant.ORDER_STATUS_PENDING && (
+              <Button onClick={onClickCancel} disabled={cancelling} theme="light">
+                Cancel
+              </Button>
+            )}
           </h2>
           <div className="mb-5">
             <span>Order No: </span>
@@ -146,7 +178,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                       <div className="flex gap-1 flex-col">
                         <p className="flex justify-between">
                           <span className="font-bold">Method:</span>
-                          {formatPaymentMethod(order.payments[0].paymentMethod)}
+                          {formatPaymentMethod(order.payments[0]?.paymentMethod)}
                         </p>
                       </div>
                     </div>
@@ -203,7 +235,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
               </div>
               <div className="flex flex-col text-gray-500 gap-2 rounded-lg text-lg">
                 <div>
-                  {order.payments[0].status === payment.PAYMENT_STATUS_COMPLETED && (
+                  {order.payments[0]?.status === payment.PAYMENT_STATUS_COMPLETED && (
                     <div className="p-5 text-base bg-gray-100 rounded-lg">
                       <span className="w-2 font-bold"></span>
                       <pre className="whitespace-pre-wrap break-words text-sm overflow-auto">
