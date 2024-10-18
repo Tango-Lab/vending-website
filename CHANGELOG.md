@@ -2,7 +2,7 @@
 
 ## v1.0.2-beta [18-Oct-2024]
 
-### Changes
+### Features
 
 - **Vending Slot Machine:**
 
