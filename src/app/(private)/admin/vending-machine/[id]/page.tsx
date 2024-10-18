@@ -19,14 +19,16 @@ import {
 import { AddMachineProductForm } from '@/components/partials/MachineProductForm';
 import { formatState } from '@/helper/format-status';
 import { capitalizeFirstLetter } from '@/helper/format-text';
-import { MachineProduct, VendingMachineDetail } from '@/models/VendingMachine';
+import { DropdownItem, MachineProduct, VendingMachineDetail } from '@/models/VendingMachine';
 import { deletedOneById } from '@/service/machine-product';
 import { getMachineDetailByID } from '@/service/vending-machine';
-import { Button, Modal, Pagination } from '@Core';
+import { Button, Dropdown, Form, Modal, Pagination } from '@Core';
 
 import { formatDisplayDate } from '../../../../../helper/format-date';
 import { useRouter } from 'next/navigation';
 import { formatCurrencyWithSymbol } from '@/helper/format-number';
+import { useForm } from 'react-hook-form';
+import { ListItemType } from '@/core/components/Dropdown';
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const router = useRouter();
@@ -34,6 +36,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [machine, setMachine] = useState<VendingMachineDetail | null>(null);
   const [slots, setSlots] = useState<MachineProduct[]>([]);
+  const [filteredSlots, setFilteredSlots] = useState<MachineProduct[]>([]); // New state for filtered slots
   const [selectProduct, setSelectProduct] = useState<MachineProduct | null>(null);
 
   const limit = 10;
@@ -45,7 +48,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           if (res) {
             setMachine(res);
             setSlots(res.slots ?? []);
-            setSlots(res.slots.slice(0, 10));
+            setFilteredSlots(res.slots.slice(0, 10)); // Initialize with the first 10 slots
           }
         })
         .catch(() => {
@@ -53,6 +56,24 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         });
     }
   }, [id, isRefresh]);
+
+  const methods = useForm<ListItemType>();
+  const { watch, setValue } = methods;
+  const slotNo = watch('slotNo');
+
+  const dropdownItems: DropdownItem[] = slots.map((slot) => ({
+    id: slot._id,
+    name: slot.slotNo,
+  }));
+
+  useEffect(() => {
+    if (slotNo) {
+      const filterSlot = slots.filter((slot) => slot._id === slotNo);
+      setFilteredSlots(filterSlot);
+    } else {
+      setFilteredSlots(slots.slice(0, 10)); // Show the first 10 slots if no filter is applied
+    }
+  }, [slotNo, slots]);
 
   if (!machine) {
     return <></>;
@@ -91,6 +112,10 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     const machineSlots = machine.slots.slice(offset, limit + offset);
     console.log(machineSlots);
     setSlots(machineSlots);
+  };
+
+  const onClearFilter = () => {
+    setValue('slotNo', null);
   };
 
   return (
@@ -159,6 +184,14 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <h2 className="text-3xl">All Product ({machine.slots.length})</h2>
         <Button onClick={addProduct}>Add Products</Button>
       </div>
+
+      <Form methods={methods} classNames="flex gap-4 mt-4 items-center">
+        <div className="flex-1 max-w-[200px] flex-grow">
+          <Dropdown items={dropdownItems} name="slotNo" placeholder="Select Slot No" />
+        </div>
+        <Button onClick={onClearFilter}>Clear</Button>
+      </Form>
+
       <div className="relative overflow-x-auto mt-5">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -196,7 +229,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             </tr>
           </thead>
           <tbody>
-            {slots.map((row, idx) => {
+            {filteredSlots.map((row, idx) => {
               const product = row.product;
               return (
                 <tr className="bg-white dark:bg-gray-800" key={idx}>
