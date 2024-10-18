@@ -244,7 +244,10 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                         <div
                           className={`flex justify-center items-center w-[50px] h-[50px] rounded-full hover:bg-red-100`}
                         >
-                          <MdBlock title="Available Qty = 0" className={`w-7 h-7 text-red-500`} />
+                          <MdBlock
+                            title="Available Qty = 0"
+                            className={`w-7 h-7 text-white  bg-red-500 rounded-full`}
+                          />
                         </div>
                       ) : (
                         <div>{row.availableQuantity}</div>
