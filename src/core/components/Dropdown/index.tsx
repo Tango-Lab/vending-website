@@ -14,10 +14,11 @@ export interface DropdownTypeProps {
   label?: string;
   items?: ListItemType[];
   isNotShowErrMsg?: boolean;
+  placeholder?: string;
 }
 
 const DropdownComponent = (props: DropdownTypeProps) => {
-  const { name, label, items = [], isNotShowErrMsg } = props;
+  const { name, label, items = [], isNotShowErrMsg, placeholder } = props;
   const {
     register,
     formState: { errors },
@@ -40,12 +41,12 @@ const DropdownComponent = (props: DropdownTypeProps) => {
       )}
       <select
         id={name}
-        defaultValue={0}
-        className={classNames(ctxClass, 'bg-gray-50 text-sm rounded-lg block w-full p-2.5')}
+        defaultValue={''}
+        className={classNames(ctxClass, 'bg-gray-50 text-sm rounded-lg block w-full py-3 px-2.5')}
         {...register(name)}
       >
-        <option value={0} disabled>
-          Select an option
+        <option value={''} disabled>
+          {placeholder}
         </option>
         {items.map((row) => (
           <option value={row.id} key={row.id}>

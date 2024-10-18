@@ -11,12 +11,20 @@ export const AddProductSlotFormSchema = yup.object<IVendingMachineSlotForm>().sh
     .default(0)
     .transform((value, originalValue) => (originalValue === '' ? null : value))
     .moreThan(0, 'Price should be a positive number'),
-  quantity: yup.number()
+  quantity: yup
+    .number()
     .required()
     .transform((value, originalValue) => (originalValue === '' ? null : value))
     .default(0)
     .min(1, 'Quantity should be at least 1'),
-  capacity: yup.number()
+  availableQuantity: yup
+    .number()
+    .required()
+    .transform((value, originalValue) => (originalValue === '' ? null : value))
+    .default(0)
+    .min(1, 'Quantity should be at least 1'),
+  capacity: yup
+    .number()
     .required()
     .transform((value, originalValue) => (originalValue === '' ? null : value))
     .default(0)
@@ -27,6 +35,7 @@ export const AddProductSlotFormSchema = yup.object<IVendingMachineSlotForm>().sh
   sensorData: yup.string().nullable().default(null),
   sensorAddress: yup.string().nullable().default(null),
   note: yup.string().nullable().default(null),
+  isActive: yup.boolean().optional().default(true),
   //
   machine: yup.string().required(), // Assuming machine ID as a string
   product: yup.string().required(), // Assuming product ID as a string

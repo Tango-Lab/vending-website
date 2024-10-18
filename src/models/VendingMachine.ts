@@ -73,6 +73,7 @@ export interface MachineProduct {
   price: number;
   machine: string;
   product: IProductFormDetail;
+  isActive: boolean;
   createdAt: string;
   updatedAt: string;
   id: string;

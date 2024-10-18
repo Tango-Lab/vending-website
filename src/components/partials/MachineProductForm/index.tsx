@@ -11,17 +11,17 @@ import { Button, Datepicker, Dropdown, Form, InputText, message, TextArea, useAp
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { IVendingMachineSlotForm } from '../../../models/MachineProduct';
+import Checkbox from '../../../core/components/Checkbox/index';
 
 export interface TypeProps {
   formValue?: MachineProduct | null;
   machineId: string;
-  lastSlotNo?: string;
   onSuccessSubmit?: () => void;
   closeForm?: () => void;
 }
 
 export const AddMachineProductForm = (props: TypeProps) => {
-  const { machineId, lastSlotNo = '01', closeForm, onSuccessSubmit, formValue } = props;
+  const { machineId, closeForm, onSuccessSubmit, formValue } = props;
   const [productList, setProductsList] = useState<ProductAutoComplete[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -38,10 +38,13 @@ export const AddMachineProductForm = (props: TypeProps) => {
       trigger('product');
       setValue('price', formValue.price);
       setValue('slotNo', formValue.slotNo);
+      setValue('availableQuantity', formValue.availableQuantity);
       setValue('quantity', formValue.quantity);
       setValue('capacity', formValue.capacity);
       setValue('lastRestock', formatDateForForm(formValue.lastRestock));
       setValue('productExpirationDate', formatDateForForm(formValue.productExpirationDate));
+      setValue('productExpirationDate', formatDateForForm(formValue.productExpirationDate));
+      setValue('isActive', formValue.isActive);
     }
     if (response?.length) {
       setProductsList(response);
@@ -49,7 +52,7 @@ export const AddMachineProductForm = (props: TypeProps) => {
   }, [response, formValue]);
 
   const methods = useForm<IVendingMachineSlotForm>({
-    defaultValues: { machine: machineId },
+    defaultValues: { machine: machineId, isActive: true },
     resolver: yupResolver(AddProductSlotFormSchema),
   });
 
@@ -82,6 +85,11 @@ export const AddMachineProductForm = (props: TypeProps) => {
     });
   };
 
+  const slotNoArray = Array.from({ length: 99 }, (_, i) => ({
+    id: String(i + 1).padStart(2, '0'),
+    name: String(i + 1).padStart(2, '0'),
+  }));
+
   return (
     <div>
       <div className="border-b-2 mb-9">
@@ -94,10 +102,13 @@ export const AddMachineProductForm = (props: TypeProps) => {
             <InputText name="price" label="Price Per Item" placeholder="10" />
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <InputText name="slotNo" label="Vending Slot" placeholder={`Last Slot: ${lastSlotNo}`} />
-            <InputText name="quantity" label="Slot Quantity" placeholder="10" />
-            <InputText name="capacity" label="Slot Capacity" placeholder="25" />
+          <div className="grid grid-cols-2 gap-4">
+            <Dropdown name="slotNo" label="Vending Slot" items={slotNoArray} />
+            <InputText name="capacity" label="Capacity" placeholder="25" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <InputText name="quantity" label="Quantity" placeholder="10" />
+            <InputText name="availableQuantity" label="Available" placeholder="10" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -108,6 +119,10 @@ export const AddMachineProductForm = (props: TypeProps) => {
           <div className="grid grid-cols-2 gap-4">
             <InputText name="sensorData" label="Sensor Data" />
             <InputText name="sensorAddress" label="Sensor Address" />
+          </div>
+
+          <div>
+            <Checkbox label="Active" name="isActive" />
           </div>
 
           <TextArea name="note" label="Note" placeholder="Type Something Here.!" />

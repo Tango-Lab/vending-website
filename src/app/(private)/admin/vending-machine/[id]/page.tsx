@@ -99,7 +99,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <AddMachineProductForm
           formValue={selectProduct}
           machineId={id}
-          lastSlotNo={lasSlot?.slotNo}
           onSuccessSubmit={onSuccessAddProduct}
           closeForm={toggleForm}
         />
@@ -168,13 +167,10 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                 Product name
               </th>
               <th scope="col" className="px-6 py-3">
-                Type
-              </th>
-              <th scope="col" className="px-6 py-3">
                 Slot No
               </th>
               <th scope="col" className="px-6 py-3">
-                Code
+                Type
               </th>
               <th scope="col" className="px-6 py-3">
                 Price
@@ -190,6 +186,9 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Created At
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Updated At
               </th>
               <th scope="col" className="text-center px-6 py-3">
                 Action
@@ -222,9 +221,8 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                       </div>
                     </Link>
                   </th>
-                  <td className="px-6 py-4">{product.type}</td>
                   <td className="px-6 py-4">{row.slotNo}</td>
-                  <td className="px-6 py-4">{product.code}</td>
+                  <td className="px-6 py-4">{product.type}</td>
                   <td className="px-6 py-4">{formatCurrencyWithSymbol(row.price, '', 'KHR')}</td>
                   <td className="px-6 py-4"> {row.quantity}</td>
                   <td className="px-6 py-4"> {row.availableQuantity}</td>
@@ -233,14 +231,15 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                       <div
                         className={classNames(
                           'h-2.5 w-2.5 rounded-full me-2',
-                          { 'bg-green-500': product.isActive },
-                          { 'bg-red-500': !product.isActive }
+                          { 'bg-green-500': row.isActive },
+                          { 'bg-red-500': !row.isActive }
                         )}
                       ></div>
-                      <div>{product.isActive ? 'Active' : 'Deactive'}</div>
+                      <div>{row.isActive ? 'Active' : 'Deactive'}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4">{formatDisplayDate(product.createdAt)}</td>
+                  <td className="px-6 py-4">{formatDisplayDate(product.updatedAt)}</td>
                   <td className="text-center">
                     <button className="p-3 text-center" onClick={() => editProduct(row)}>
                       <MdEditDocument className="w-6 h-6 text-gray-400 hover:text-blue-500" />

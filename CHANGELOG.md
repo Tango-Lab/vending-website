@@ -1,5 +1,21 @@
 # Release Notes
 
+## v1.0.2-beta [18-Oct-2024]
+
+### Features
+
+- **Vending Slot Machine:**
+
+  - Changed slotNo input field to a dropdown for easier selection
+
+  -Added functionality to allow users to manually update the available quantity of vending machine slots.
+
+- **Order Modules:**
+
+  - Added filter functionality to order by status.
+
+  - Added the ability for admins to cancel orders from the dashboard.
+
 ## v1.0.1-beta [15-Oct-2024]
 
 ### Improvement

@@ -68,3 +68,9 @@ export interface PaymentInfo {
   externalRef: string;
   _id: string;
 }
+
+export interface ICancelOrderParm {
+  machine: string;
+  serialNo: string;
+  orderNo: string;
+}
