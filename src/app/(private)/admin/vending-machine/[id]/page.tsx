@@ -193,10 +193,10 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                 Price
               </th>
               <th scope="col" className="px-6 py-3 text-center">
-                RESTOCK QTY
+                Restock Qty
               </th>
               <th scope="col" className="px-6 py-3 text-center">
-                AVAILABLE QTY
+                Available Qty
               </th>
               <th scope="col" className="px-6 py-3">
                 Status
@@ -242,12 +242,10 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                     <div className="flex justify-center items-center">
                       {row.availableQuantity === 0 ? (
                         <div
+                          title="Available Qty = 0"
                           className={`flex justify-center items-center w-[50px] h-[50px] rounded-full hover:bg-red-100`}
                         >
-                          <MdBlock
-                            title="Available Qty = 0"
-                            className={`w-7 h-7 text-white  bg-red-500 rounded-full`}
-                          />
+                          <MdBlock className={`w-7 h-7  text-red-500 rounded-full`} />
                         </div>
                       ) : (
                         <div>{row.availableQuantity}</div>
