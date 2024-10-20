@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import React from 'react';
+import Image from 'next/image';
 
 const Header = () => {
   return (
     <nav className="flex p-4 justify-between items-center bg-white border-gray-200 border-b">
-      <div>LOGO</div>
+      <div>
+        <Image src="/assets/logo/logo-word.svg" alt="/assets/logo/logo-word" width={100} height={100} />
+      </div>
       <div className="flex items-center">
         <Link href="/">
           <div className="hover:text-blue-500 ml-8">Home</div>

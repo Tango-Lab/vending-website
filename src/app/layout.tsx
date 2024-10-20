@@ -6,6 +6,12 @@ import AuthProvider from '@/context/AuthContext';
 
 export const metadata: Metadata = {
   title: 'VM Mart | High-Quality Vending Machines for All Needs | Reliable & Efficient Solutions',
+  icons: {
+    icon: [
+      { rel: 'icon', type: 'image/x-icon', url: '/assets/logo/logo.ico' },
+      { rel: 'icon', url: '/assets/logo/logo.ico' }, // Backup favicon for browsers that don't support SVG
+    ],
+  },
   description: `VM Mart offers high-quality, customizable vending machines for offices, schools, gyms, and more. Our machines feature snacks, beverages, and essentials with cashless payment options and easy maintenance. Boost convenience and customer satisfaction with VM Mart's reliable vending solutions`,
   keywords: `VM Mart, vending machines, snack vending, beverage vending, cashless vending machines, custom vending,
     office vending machines, reliable vending services, automated vending solutions.`,
