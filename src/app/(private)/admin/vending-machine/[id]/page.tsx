@@ -36,7 +36,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [machine, setMachine] = useState<VendingMachineDetail | null>(null);
   const [slots, setSlots] = useState<MachineProduct[]>([]);
-  const [filteredSlots, setFilteredSlots] = useState<MachineProduct[]>([]); // New state for filtered slots
   const [selectProduct, setSelectProduct] = useState<MachineProduct | null>(null);
 
   const limit = 10;
@@ -47,8 +46,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         .then((res) => {
           if (res) {
             setMachine(res);
-            setSlots(res.slots ?? []);
-            setFilteredSlots(res.slots.slice(0, 10)); // Initialize with the first 10 slots
+            setSlots(res.slots.splice(0, limit));
           }
         })
         .catch(() => {
@@ -57,27 +55,14 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     }
   }, [id, isRefresh]);
 
-  const methods = useForm<ListItemType>();
+  const methods = useForm<ListItemType>({ defaultValues: { slotNo: null } });
   const { watch, setValue } = methods;
-  const slotNo = watch('slotNo');
+  const selectedSlotNo = watch('slotNo');
 
-  const dropdownItems: DropdownItem[] = slots.map((slot) => ({
-    id: slot._id,
-    name: slot.slotNo,
-  }));
+  const dropdownItems: DropdownItem[] = slots.map((slot) => ({ id: slot.slotNo, name: slot.slotNo }));
 
-  useEffect(() => {
-    if (slotNo) {
-      const filterSlot = slots.filter((slot) => slot._id === slotNo);
-      setFilteredSlots(filterSlot);
-    } else {
-      setFilteredSlots(slots.slice(0, 10)); // Show the first 10 slots if no filter is applied
-    }
-  }, [slotNo, slots]);
-
-  if (!machine) {
-    return <></>;
-  }
+  // Filter slots based on slotNo selection
+  const filteredSlots = selectedSlotNo ? slots.filter((slot) => slot.slotNo === selectedSlotNo) : slots;
 
   const toggleForm = () => {
     setOpenForm(!openForm);
@@ -106,16 +91,17 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     setOpenForm(!openForm);
   };
 
-  const lasSlot = machine.slots[machine.slots.length - 1];
+  const onClearFilter = () => {
+    setValue('slotNo', null);
+  };
+
+  if (!machine) {
+    return <></>;
+  }
 
   const onChangeOffset = (offset: number) => {
     const machineSlots = machine.slots.slice(offset, limit + offset);
-    console.log(machineSlots);
     setSlots(machineSlots);
-  };
-
-  const onClearFilter = () => {
-    setValue('slotNo', null);
   };
 
   return (
@@ -203,9 +189,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                 Slot No
               </th>
               <th scope="col" className="px-6 py-3">
-                Type
-              </th>
-              <th scope="col" className="px-6 py-3">
                 Price
               </th>
               <th scope="col" className="px-6 py-3">
@@ -255,7 +238,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                     </Link>
                   </th>
                   <td className="px-6 py-4">{row.slotNo}</td>
-                  <td className="px-6 py-4">{product.type}</td>
                   <td className="px-6 py-4">{formatCurrencyWithSymbol(row.price, '', 'KHR')}</td>
                   <td className="px-6 py-4"> {row.quantity}</td>
                   <td className="px-6 py-4"> {row.availableQuantity}</td>
@@ -286,7 +268,12 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             })}
           </tbody>
         </table>
-        <Pagination total={machine.slots.length} pageSize={10} onChange={onChangeOffset} />
+
+        <Pagination
+          total={selectedSlotNo ? filteredSlots.length : machine.slots.length}
+          pageSize={limit}
+          onChange={onChangeOffset}
+        />
       </div>
     </>
   );
