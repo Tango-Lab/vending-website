@@ -19,14 +19,16 @@ import {
 import { AddMachineProductForm } from '@/components/partials/MachineProductForm';
 import { formatState } from '@/helper/format-status';
 import { capitalizeFirstLetter } from '@/helper/format-text';
-import { MachineProduct, VendingMachineDetail } from '@/models/VendingMachine';
+import { DropdownItem, MachineProduct, VendingMachineDetail } from '@/models/VendingMachine';
 import { deletedOneById } from '@/service/machine-product';
 import { getMachineDetailByID } from '@/service/vending-machine';
-import { Button, Modal, Pagination } from '@Core';
+import { Button, Dropdown, Form, Modal, Pagination } from '@Core';
 
 import { formatDisplayDate } from '../../../../../helper/format-date';
 import { useRouter } from 'next/navigation';
 import { formatCurrencyWithSymbol } from '@/helper/format-number';
+import { useForm } from 'react-hook-form';
+import { ListItemType } from '@/core/components/Dropdown';
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const router = useRouter();
@@ -44,8 +46,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         .then((res) => {
           if (res) {
             setMachine(res);
-            setSlots(res.slots ?? []);
-            setSlots(res.slots.slice(0, 10));
+            setSlots(res.slots.splice(0, limit));
           }
         })
         .catch(() => {
@@ -54,9 +55,14 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     }
   }, [id, isRefresh]);
 
-  if (!machine) {
-    return <></>;
-  }
+  const methods = useForm<ListItemType>({ defaultValues: { slotNo: null } });
+  const { watch, setValue } = methods;
+  const selectedSlotNo = watch('slotNo');
+
+  const dropdownItems: DropdownItem[] = slots.map((slot) => ({ id: slot.slotNo, name: slot.slotNo }));
+
+  // Filter slots based on slotNo selection
+  const filteredSlots = selectedSlotNo ? slots.filter((slot) => slot.slotNo === selectedSlotNo) : slots;
 
   const toggleForm = () => {
     setOpenForm(!openForm);
@@ -85,11 +91,16 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     setOpenForm(!openForm);
   };
 
-  const lasSlot = machine.slots[machine.slots.length - 1];
+  const onClearFilter = () => {
+    setValue('slotNo', null);
+  };
+
+  if (!machine) {
+    return <></>;
+  }
 
   const onChangeOffset = (offset: number) => {
     const machineSlots = machine.slots.slice(offset, limit + offset);
-    console.log(machineSlots);
     setSlots(machineSlots);
   };
 
@@ -159,6 +170,14 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <h2 className="text-3xl">All Product ({machine.slots.length})</h2>
         <Button onClick={addProduct}>Add Products</Button>
       </div>
+
+      <Form methods={methods} classNames="flex gap-4 mt-4 items-center">
+        <div className="flex-1 max-w-[200px] flex-grow">
+          <Dropdown items={dropdownItems} name="slotNo" placeholder="Select Slot No" />
+        </div>
+        <Button onClick={onClearFilter}>Clear</Button>
+      </Form>
+
       <div className="relative overflow-x-auto mt-5">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -168,9 +187,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Slot No
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Type
               </th>
               <th scope="col" className="px-6 py-3">
                 Price
@@ -196,7 +212,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             </tr>
           </thead>
           <tbody>
-            {slots.map((row, idx) => {
+            {filteredSlots.map((row, idx) => {
               const product = row.product;
               return (
                 <tr className="bg-white dark:bg-gray-800" key={idx}>
@@ -222,7 +238,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
                     </Link>
                   </th>
                   <td className="px-6 py-4">{row.slotNo}</td>
-                  <td className="px-6 py-4">{product.type}</td>
                   <td className="px-6 py-4">{formatCurrencyWithSymbol(row.price, '', 'KHR')}</td>
                   <td className="px-6 py-4"> {row.quantity}</td>
                   <td className="px-6 py-4"> {row.availableQuantity}</td>
@@ -253,7 +268,12 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             })}
           </tbody>
         </table>
-        <Pagination total={machine.slots.length} pageSize={10} onChange={onChangeOffset} />
+
+        <Pagination
+          total={selectedSlotNo ? filteredSlots.length : machine.slots.length}
+          pageSize={limit}
+          onChange={onChangeOffset}
+        />
       </div>
     </>
   );
