@@ -143,65 +143,61 @@ function Page() {
           </tr>
         </thead>
         <tbody>
-          {!loading &&
-            list.length > 0 &&
-            list.map((row) => (
-              <tr className="hover:bg-gray-100 dark:hover:bg-neutral-700" key={row.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>{row.orderNo}</Link>
-                </td>
+          {list.map((row) => (
+            <tr className="hover:bg-gray-100 dark:hover:bg-neutral-700" key={row.id}>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>{row.orderNo}</Link>
+              </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>{row.payments[0]?.transactionNo}</Link>
-                </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>{row.payments[0]?.transactionNo}</Link>
+              </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>{row.machine.name}</Link>
-                </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>{row.machine.name}</Link>
+              </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>
-                    {formatCurrencyWithSymbol(row.totalAmount, '', row.currency)}
-                  </Link>
-                </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>
+                  {formatCurrencyWithSymbol(row.totalAmount, '', row.currency)}
+                </Link>
+              </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>
-                    <div className="flex gap-x-2 items-center">
-                      <div
-                        className={classNames('h-2.5 w-2.5 rounded-full me-2', getStatusClass(row.orderStatus))}
-                      ></div>
-                      {formatOrderStatus(row.orderStatus)}
-                    </div>
-                  </Link>
-                </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>
+                  <div className="flex gap-x-2 items-center">
+                    <div className={classNames('h-2.5 w-2.5 rounded-full me-2', getStatusClass(row.orderStatus))}></div>
+                    {formatOrderStatus(row.orderStatus)}
+                  </div>
+                </Link>
+              </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>
-                    <div className="flex gap-x-2 items-center">
-                      <div
-                        className={classNames('h-2.5 w-2.5 rounded-full me-2', getStatusClass(row.paymentStatus))}
-                      ></div>
-                      {formatPaymentStatus(row.paymentStatus)}
-                    </div>
-                  </Link>
-                </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>
+                  <div className="flex gap-x-2 items-center">
+                    <div
+                      className={classNames('h-2.5 w-2.5 rounded-full me-2', getStatusClass(row.paymentStatus))}
+                    ></div>
+                    {formatPaymentStatus(row.paymentStatus)}
+                  </div>
+                </Link>
+              </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>{formatPaymentMethod(row.payments[0]?.paymentMethod)}</Link>
-                </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>{formatPaymentMethod(row.payments[0]?.paymentMethod)}</Link>
+              </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>{formatDateForForm(row.createdAt, 'DD MMM yyyy hh:mm a')}</Link>
-                </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>{formatDateForForm(row.createdAt, 'DD MMM yyyy hh:mm a')}</Link>
+              </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                  <Link href={'/admin/order/' + row.id}>
-                    {formatDateForForm(row.payments[0]?.paymentTimestamp, 'DD MMM yyyy hh:mm a')}
-                  </Link>
-                </td>
-              </tr>
-            ))}
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                <Link href={'/admin/order/' + row.id}>
+                  {formatDateForForm(row.payments[0]?.paymentTimestamp, 'DD MMM yyyy hh:mm a')}
+                </Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
