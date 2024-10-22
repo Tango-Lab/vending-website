@@ -16,6 +16,8 @@ import { IOrder, PaymentInfo } from '@/models/Order';
 import { cancelOrder, getOrderById } from '@/service/order';
 import { formatCurrencyWithSymbol } from '@/helper/format-number';
 import { Button } from '@Core';
+import { MdArrowRight } from 'react-icons/md';
+import { formatDateForForm, formatDisplayDate } from '@/helper/format-date';
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const router = useRouter();
@@ -123,8 +125,8 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             )}
           </h2>
           <div className="mb-5">
-            <span>Order No: </span>
-            <span>{order.orderNo}</span>
+            <span>Order created: </span>
+            <span className="text-sm">{formatDateForForm(order.createdAt, 'DD MMM yyyy hh:mm a')}</span>
           </div>
 
           <div className="w-full grid grid-cols-6 gap-5 rounded-lg">
@@ -188,6 +190,10 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
               <div className="mt-4 shadow-lg row-span-2 border h-full p-8 flex flex-col flex-grow flex-wrap gap-5 rounded-lg flex-1">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-bold text-gray-900">Machine</h2>
+                  <Button theme="light" className="flex items-center justify-between">
+                    <Link href={`/admin/vending-machine/${order.machine.id}`}> View Details</Link>
+                    <MdArrowRight className="w-5 h-5" />
+                  </Button>
                 </div>
                 <div className="flex flex-col gap-1 justify-start text-gray-500">
                   <div className="flex flex-col space-y-2 w-full">
