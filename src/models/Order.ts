@@ -52,6 +52,8 @@ export interface Payment {
   paymentMethod: number;
   status: number;
   paymentInfo: PaymentInfo;
+  paymentMetadata: string;
+  hashBakongCode: string;
   paymentTimestamp: string;
   transactionNo: string;
 }

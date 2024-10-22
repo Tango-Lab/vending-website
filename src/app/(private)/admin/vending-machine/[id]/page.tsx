@@ -16,6 +16,7 @@ import {
   MdOutlinePowerSettingsNew,
   MdOutlineTaskAlt,
   MdOutlineWifi,
+  MdOutlineStorm,
 } from 'react-icons/md';
 
 import { AddMachineProductForm } from '@/components/partials/MachineProductForm';
@@ -145,6 +146,10 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           <div className="flex items-center gap-x-5 pl-5">
             <MdOutlineContactPhone className="text-xl " />
             <span className="w-32 ">Contact Person</span> :<span>{machine.contactPerson}</span>
+          </div>
+          <div className="flex items-center gap-x-5 pl-5">
+            <MdOutlineStorm className="text-xl" />
+            <span className="w-32 ">Serial No</span> :<span>{machine.device.serialNo}</span>
           </div>
         </div>
         <hr />

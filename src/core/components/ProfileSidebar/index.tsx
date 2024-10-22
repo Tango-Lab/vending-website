@@ -8,6 +8,7 @@ import { useAuthContext } from '@/context/AuthContext';
 
 import Style from './style.module.scss';
 import MobileSideBar from './MobileSidebar';
+import Image from 'next/image';
 
 function ProfileSidebar() {
   const router = useRouter();
@@ -31,7 +32,7 @@ function ProfileSidebar() {
       <aside className={classNames(collapsibleCtx, 'hidden md:block', Style['sidebar-wrapper'])}>
         <div className={Style['sidebar-content']}>
           <div className="h-[80px] py-4 px-6 flex items-center">
-            <h2>VM Mart</h2>
+            <Image src="/assets/logo/logo-word.svg" alt="/assets/logo/logo-word" width={100} height={100} />
           </div>
           <ul>
             <Link href="/admin/dashboard">

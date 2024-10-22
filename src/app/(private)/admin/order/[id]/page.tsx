@@ -105,6 +105,12 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
     }
   };
 
+  const copiedClipboard = async (text: string) => {
+    if (text) {
+      await navigator.clipboard.writeText(text);
+    }
+  };
+
   return (
     <div>
       {order && (
@@ -125,8 +131,8 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             )}
           </h2>
           <div className="mb-5">
-            <span>Order created: </span>
-            <span className="text-sm">{formatDateForForm(order.createdAt, 'DD MMM yyyy hh:mm a')}</span>
+            <span>Ordered At: </span>
+            <span className="text-sm">{formatDateForForm(order.createdAt, 'DD MMM yyyy hh:mm:ss a')}</span>
           </div>
 
           <div className="w-full grid grid-cols-6 gap-5 rounded-lg">
@@ -233,11 +239,34 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             </div>
             <div className="shadow-lg border flex flex-col col-span-6 2xl:col-span-3 gap-5 rounded-lg p-8">
               <div className="flex justify-between flex-col lg:flex-row items-start gap-y-2 lg:items-center">
-                <h2 className="text-xl font-bold text-gray-900">
-                  <span>Order Summary</span>
-                  <span>({order.payments[0]?.transactionNo})</span>
-                </h2>
-                {paymentStatus(order.paymentStatus)}
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">
+                    <span>Order Summary</span>
+                    <span>({order.payments[0]?.transactionNo})</span>
+                  </h2>
+                  {order.payments[0].status === payment.PAYMENT_STATUS_COMPLETED && (
+                    <div className="mt-2 flex gap-2">
+                      <div>Completed At</div>
+                      <div>{formatDisplayDate(order.payments[0].paymentTimestamp, 'DD MMM YYYY hh:mm:ss a')}</div>
+                    </div>
+                  )}
+                </div>
+                <div>{paymentStatus(order.paymentStatus)}</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-md grid grid-cols-2 justify-between">
+                  <div>Payment Meta</div>
+                  <div>{order.payments?.[0].paymentMetadata}</div>
+                </div>
+                <div className="text-md grid grid-cols-2 justify-between">
+                  <div>QR Code</div>
+                  <div
+                    onClick={() => copiedClipboard(order.payments?.[0].hashBakongCode)}
+                    className="truncate cursor-pointer"
+                  >
+                    {order.payments?.[0].hashBakongCode}
+                  </div>
+                </div>
               </div>
               <div className="flex flex-col text-gray-500 gap-2 rounded-lg text-lg">
                 <div>
