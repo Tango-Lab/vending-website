@@ -3,8 +3,8 @@ export interface IPagination<T> extends IPaginationKey {
 }
 
 export interface IPaginationParam {
-  limit: number;
-  offset: number;
+  limit: number | null;
+  offset: number | null;
 }
 
 export interface IPaginationKey {

@@ -5,8 +5,9 @@ import Image from 'next/image';
 const Header = () => {
   return (
     <nav className="flex p-4 justify-between items-center bg-white border-gray-200 border-b">
-      <div>
-        <Image src="/assets/logo/logo-word.svg" alt="/assets/logo/logo-word" width={100} height={100} />
+      <div className="flex items-center justify-between gap-3">
+        <Image src="/assets/logo/logo-pic.svg" alt="/assets/logo/logo-pic" width={70} height={70} />
+        <Image src="/assets/logo/logo-text.svg" alt="/assets/logo/logo-text" width={100} height={100} />
       </div>
       <div className="flex items-center">
         <Link href="/">
