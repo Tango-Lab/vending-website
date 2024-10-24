@@ -2,7 +2,7 @@ import { TotalAmount } from '@/app/(private)/admin/dashboard/page';
 import { useApi } from '@/core';
 import { getTotalAmount } from '@/service/dashboards';
 
-export const useDailyTotal = (machine: string, selectMachine: string) => {
+export const GetDailyTotal = (machine: string, selectMachine: string) => {
   const {
     response: amount,
     loading,
@@ -16,7 +16,7 @@ export const useDailyTotal = (machine: string, selectMachine: string) => {
   return { amount, loading, error };
 };
 
-export const useWeeklyTotal = (machine: string, weekRange: { start: string; end: string }, selectMachine: string) => {
+export const GetWeeklyTotal = (machine: string, weekRange: { start: string; end: string }, selectMachine: string) => {
   const {
     response: weekly,
     loading,
@@ -30,7 +30,7 @@ export const useWeeklyTotal = (machine: string, weekRange: { start: string; end:
   return { weekly, loading, error };
 };
 
-export const getMonthlyTotal = (machine: string, monthRange: { start: string; end: string }, selectMachine: string) => {
+export const GetMonthlyTotal = (machine: string, monthRange: { start: string; end: string }, selectMachine: string) => {
   const {
     response: monthly,
     loading,

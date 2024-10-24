@@ -5,7 +5,7 @@ import { getMachineAutoComplete } from '@/service/vending-machine';
 import { useForm } from 'react-hook-form';
 import { getMonthRange, getWeekRange } from '@/helper/format-date';
 import React, { useEffect, useState } from 'react';
-import { getMonthlyTotal, useDailyTotal, useWeeklyTotal } from '@/actions/Amount';
+import { GetMonthlyTotal, GetDailyTotal, GetWeeklyTotal } from '@/actions/Amount';
 
 export interface TotalAmount {
   amount: number;
@@ -28,9 +28,9 @@ const Page = () => {
     effects: [],
   });
 
-  const { amount, loading: loadingAmount } = useDailyTotal(machine, selectMachine as string);
-  const { weekly } = useWeeklyTotal(machine, weekRange, selectMachine as string);
-  const { monthly } = getMonthlyTotal(machine, monthRange, selectMachine as string);
+  const { amount, loading: loadingAmount } = GetDailyTotal(machine, selectMachine as string);
+  const { weekly } = GetWeeklyTotal(machine, weekRange, selectMachine as string);
+  const { monthly } = GetMonthlyTotal(machine, monthRange, selectMachine as string);
 
   function onClearFilter() {
     setValue('machine', null);
