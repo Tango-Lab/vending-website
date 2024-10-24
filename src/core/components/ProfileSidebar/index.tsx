@@ -32,7 +32,7 @@ function ProfileSidebar() {
       <aside className={classNames(collapsibleCtx, 'hidden md:block', Style['sidebar-wrapper'])}>
         <div className={Style['sidebar-content']}>
           <div className="h-[80px] py-4 px-6 flex items-center">
-            <Image src="/assets/logo/logo-word.svg" alt="/assets/logo/logo-word" width={100} height={100} />
+            <Image src="/assets/logo/logo-text.svg" alt="/assets/logo/logo-text" width={100} height={100} />
           </div>
           <ul>
             <Link href="/admin/dashboard">

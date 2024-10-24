@@ -13,7 +13,7 @@ export default function Home() {
         backgroundImage: 'url("/assets/vending.jpg")',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center top',
+        backgroundPosition: 'right top',
       }}
       className="w-full h-full"
     >
@@ -25,13 +25,19 @@ export default function Home() {
         <p>Some contents...</p>
       </Modal>
 
-      <div className="w-full h-screen flex tilted-layer ">
+      <div className="w-full h-screen flex xl:tilted-layer">
         <div className="relative h-screen ">
-          <div className=" absolute inset-0"></div>
-          <div className="relative z-10 p-10 flex flex-col gap-5 ">
+          <div className="relative z-10 p-10 flex gap-5 flex-col ">
             <h1 className="text-4xl font-black">Welcome to VM Mart</h1>
-            <p className="">This is an example of a landing page with a tilted background layer.</p>
-            <div className="container mx-auto ">
+            <p className="text-lg font-semibold w-full">
+              Discover a hassle-free way to enjoy your favorite snacks and beverages!
+            </p>
+            <p className="xl:w-1/3 w-full">
+              Our innovative vending machines allow you to select products and pay using your mobile device's QR code.
+              Enjoy a contactless, secure, and convenient shopping experience—no cash or cards needed. Scan, pay, and
+              savor the moment!
+            </p>
+            <div>
               <div className="flex flex-row gap-4">
                 <Button onClick={() => setOpenModal(true)}>Open Modal</Button>
                 <Button onClick={() => message.success('This is success')}>Message</Button>
@@ -42,7 +48,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div></div>
     </div>
   );
 }
