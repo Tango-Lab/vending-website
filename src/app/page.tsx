@@ -33,9 +33,9 @@ export default function Home() {
               Discover a hassle-free way to enjoy your favorite snacks and beverages!
             </p>
             <p className="xl:w-1/3 w-full">
-              Our innovative vending machines allow you to select products and pay using your mobile device's QR code.
+              {`Our innovative vending machines allow you to select products and pay using your mobile device's QR code.
               Enjoy a contactless, secure, and convenient shopping experience—no cash or cards needed. Scan, pay, and
-              savor the moment!
+              savor the moment!`}
             </p>
             <div>
               <div className="flex flex-row gap-4">
