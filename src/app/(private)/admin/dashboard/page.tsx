@@ -60,9 +60,9 @@ const Page = () => {
           </Button>
         </Form>
         <div className="w-full grid grid-cols-1 xl:grid-cols-3 gap-5">
-          <Card loading={loadingAmount} amount={amount} />
-          <Card loading={loadingAmount} amount={weekly} />
-          <Card loading={loadingAmount} amount={monthly} />
+          <Card label="Today" loading={loadingAmount} amount={amount} />
+          <Card label="This Week" loading={loadingAmount} amount={weekly} />
+          <Card label="This Month" loading={loadingAmount} amount={monthly} />
         </div>
       </div>
       <div className="w-full rounded-lg border p-5 flex flex-col gap-5">

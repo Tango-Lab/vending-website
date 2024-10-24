@@ -4,10 +4,11 @@ import { formatCurrencyWithSymbol } from '@/helper/format-number';
 import { TotalAmount } from '@/app/(private)/admin/dashboard/page';
 
 export interface ICard {
+  label: string;
   loading: boolean;
   amount: TotalAmount;
 }
-const Card = ({ loading, amount }: ICard) => {
+const Card = ({ loading, amount, label }: ICard) => {
   return (
     <div className="p-5 mt-5 h-full border rounded-lg min-w-[120px] min-h-[120px]  bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
       <div className="flex items-center gap-5 ">
@@ -23,7 +24,7 @@ const Card = ({ loading, amount }: ICard) => {
             )}
           </h2>
           <div className="flex items-center justify-between">
-            <h2 className="text-lg">Monthly Revenue</h2>
+            <h2 className="text-lg">{label}</h2>
           </div>
         </div>
       </div>
