@@ -47,6 +47,21 @@ export function POST<T, B = any>(url: string, data: B, headers?: RawAxiosRequest
 }
 
 /**
+ * @template T the type of the action's `response`.
+ * @template Q the type of the query's `param` in URL `Optionals`.
+ */
+export function GETBlobWithToken<T, Q = any>(url: string, params?: Q, headers = {}): Promise<T> {
+  const accessToken = getAccessToken();
+  if (!accessToken) {
+    throw Error('Missing AccessToken');
+  }
+  Object.assign(headers, {
+    Authorization: 'Bearer ' + accessToken.accessToken,
+  });
+  return sendRequest({ method: 'GET', url, headers, params, responseType: 'blob' });
+}
+
+/**
  * @template T the type of the action's `response` tag.
  * @template B the type of the body's `param` JSON.
  */

@@ -7,17 +7,18 @@ import * as payment from '@/constants/Payment';
 
 import { formatOrderStatus, formatPaymentMethod, formatPaymentStatus } from '@/helper/format-status';
 import { IOrder } from '@/models/Order';
-import { getAllOrders } from '@/service/order';
-import { Button, Dropdown, Form, Pagination, useApi } from '@Core';
+import { downloadAsExcel, getAllOrders } from '@/service/order';
+import { Button, Dropdown, Form, message, Pagination, useApi } from '@Core';
 import classNames from 'classnames';
 import Link from 'next/link';
 import { getMachineAutoComplete } from '@/service/vending-machine';
 import { useForm } from 'react-hook-form';
 import { ListItemType } from '@/core/components/Dropdown';
 import { formatCurrencyWithSymbol } from '@/helper/format-number';
+import { createDownloadFile } from '@/utils';
 
 function Page() {
-  const limit = 15;
+  const limit = 20;
   //
   const [offset, setOffset] = useState(0);
   const [total, setTotal] = useState(0);
@@ -26,7 +27,7 @@ function Page() {
   const [selectedOrderStatus, setSelectedOrderStatus] = useState<number | null>(null);
   const [machinesList, setMachinesList] = useState<ListItemType[]>([]);
   const methods = useForm<ListItemType>({ defaultValues: { machine: null, status: null } });
-
+  const [isDownloading, setIsDownloading] = useState(false);
   const { watch, setValue } = methods;
   const machine = watch('machine');
   const status = watch('status');
@@ -87,20 +88,43 @@ function Page() {
     }
   }
 
+  const onDownloadExcelFile = () => {
+    setIsDownloading(true);
+    downloadAsExcel({ machine, status })
+      .then((file) => {
+        createDownloadFile(file, `${Date.now()}.xlsx`);
+        setIsDownloading(false);
+        message.success('Download Successfully.');
+      })
+      .catch(() => {
+        setIsDownloading(false);
+        message.success('Fail to download.');
+      })
+      .finally(() => {
+        setIsDownloading(false);
+      });
+  };
+
   return (
     <div>
       <h2 className="text-3xl mb-4">All Order ({total})</h2>
-      <Form methods={methods} classNames="flex gap-4">
-        <div className="flex-1 max-w-[200px] flex-grow">
-          <Dropdown items={machinesList} name="machine" placeholder="Select Machine" />
-        </div>
-        <div className="flex-1 max-w-[200px]">
-          <Dropdown items={order.STATUS_LIST} name="status" placeholder="Select Status" />
-        </div>
-        <Button disabled={loading} onClick={onClearFilter}>
-          Clear
+      <div className="flex items-center justify-between">
+        <Form methods={methods} classNames="flex gap-4">
+          <div className="flex-1 max-w-[200px] flex-grow">
+            <Dropdown items={machinesList} name="machine" placeholder="Select Machine" />
+          </div>
+          <div className="flex-1 max-w-[200px]">
+            <Dropdown items={order.STATUS_LIST} name="status" placeholder="Select Status" />
+          </div>
+          <Button disabled={loading} onClick={onClearFilter}>
+            Clear
+          </Button>
+        </Form>
+
+        <Button disabled={isDownloading} onClick={onDownloadExcelFile}>
+          Download As Excel
         </Button>
-      </Form>
+      </div>
 
       <table className="w-full min-w-max table-auto mt-4 text-left">
         <thead>
