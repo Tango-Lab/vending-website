@@ -35,3 +35,5 @@ export { default as Modal } from './Modals';
 export type { ModalTypeProps } from './Modals';
 
 export { default as ProfileSidebar } from './ProfileSidebar';
+
+export { default as Card } from './Card';

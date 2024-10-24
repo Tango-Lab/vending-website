@@ -36,7 +36,6 @@ function Page() {
     params: { limit, offset, machine, status },
     effects: [offset, selectedMachine, selectedOrderStatus],
   });
-
   const { response: machines } = useApi<ListItemType[]>({
     service: getMachineAutoComplete,
     params: {},
