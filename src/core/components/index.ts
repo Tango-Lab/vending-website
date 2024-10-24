@@ -34,6 +34,9 @@ export type { ButtonTypeProps } from './Buttons';
 export { default as Modal } from './Modals';
 export type { ModalTypeProps } from './Modals';
 
+export { default as DateRangePicker } from './DateRangePicker';
+export type { TypeDateRangePicker } from './DateRangePicker';
+
 export { default as ProfileSidebar } from './ProfileSidebar';
 
 export { default as Card } from './Card';

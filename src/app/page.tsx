@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 
-import { Button, Header, message, Modal } from '@Core';
+import { Button, DateRangePicker, Header, message, Modal } from '@Core';
 import Image from 'next/image';
 
 export default function Home() {
@@ -38,6 +38,7 @@ export default function Home() {
               savor the moment!`}
             </p>
             <div>
+              <DateRangePicker />
               <div className="flex flex-row gap-4">
                 <Button onClick={() => setOpenModal(true)}>Open Modal</Button>
                 <Button onClick={() => message.success('This is success')}>Message</Button>
